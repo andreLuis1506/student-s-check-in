@@ -1,4 +1,4 @@
-# Course manager 
+# student's check-in
 
 ## Project setup
 ```
