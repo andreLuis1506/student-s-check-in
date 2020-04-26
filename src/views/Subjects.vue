@@ -6,7 +6,9 @@
         <div class="container is-fluid box">
           <div class="columns">
             <div class="column is-3 marginTop">
-              <p><strong> {{ user.course }} </strong></p>
+              <p>
+                <strong> {{ user.course }} </strong>
+              </p>
             </div>
             <div class="column marginTop">
               <b-progress
@@ -15,7 +17,7 @@
                 size="is-medium"
                 show-value
               >
-                {{progress}} %
+                {{ progress }} %
               </b-progress>
             </div>
             <div class="column is-2 marginTop">
@@ -24,25 +26,38 @@
               >
             </div>
           </div>
-        <!-- lista -->
+          <!-- lista -->
           <div class="marginTop">
             <div class="columns is-multiline ">
-              <div v-for="subject in subjects" :key="subject.id" class="column is-3" >                
+              <div
+                v-for="subject in subjects"
+                :key="subject.id"
+                class="column is-3"
+              >
                 <div class="box ">
-                  <div :class="['hero is-bold titleBox',subject.status]">
-                    <h1 class="subtitle">{{subject.name}}</h1>
+                  <div :class="['hero is-bold titleBox', subject.status]">
+                    <h1 class="subtitle">{{ subject.name }}</h1>
                   </div>
-                  <br>
-                  <p> <strong>Semestre:</strong>  {{subject.semester}}° </p>
-                  <p>  <strong> Requisito:</strong> {{subject.requirement ? subject.requirement :  ' NA'}}</p> 
-                  <b-button v-if="subject.status != 'is-success'" @click="check(subject.id)" class=" marginTop is-primary" outlined>check</b-button>
+                  <br />
+                  <p><strong>Semestre:</strong> {{ subject.semester }}°</p>
+                  <p>
+                    <strong> Requisito:</strong>
+                    {{ subject.requirement ? subject.requirement : " NA" }}
+                  </p>
+                  <b-button
+                    v-if="subject.status != 'is-success'"
+                    @click="check(subject.id)"
+                    class=" marginTop is-primary"
+                    outlined
+                    >check</b-button
+                  >
                 </div>
               </div>
             </div>
           </div>
           <!-- lista vazia -->
           <div v-if="subjects.length == 0" class="marginTop">
-            <h1 id="titloMensagem">Vamos começar!! </h1>
+            <h1 id="titloMensagem">Vamos começar!!</h1>
             <p>Click em "+" para adicionar sua primeira materia</p>
           </div>
         </div>
@@ -54,7 +69,7 @@
         <div class="box">
           <h1 class="title">Nova Materia</h1>
           <p class="subtitle">Preencha para cadastrar uma nova materia.</p>
-          <form  @submit.prevent="register" class="form">
+          <form @submit.prevent="register" class="form">
             <b-field label="Nome" label-position="inside">
               <b-input
                 class="marginTop"
@@ -76,8 +91,8 @@
                     >
                   </b-select>
                 </b-field>
-              </div>    
-              <div class="column">    
+              </div>
+              <div class="column">
                 <b-field label="Semestre" label-position="inside">
                   <b-input
                     type="number"
@@ -90,7 +105,11 @@
                 </b-field>
               </div>
             </div>
-            <b-button type="submit" native-type="submit" class="is-primary " outlined
+            <b-button
+              type="submit"
+              native-type="submit"
+              class="is-primary "
+              outlined
               >Adicionar Materia</b-button
             >
           </form>
@@ -119,7 +138,9 @@ export default {
       .select("*")
       .first();
 
-    this.subjects = await connection("subjects").select("*" ).orderBy("semester");
+    this.subjects = await connection("subjects")
+      .select("*")
+      .orderBy("semester");
 
     console.log(this.subjects);
 
@@ -131,21 +152,20 @@ export default {
       let status;
       let requirement = this.requirement;
       let semester = this.semester;
-      let aux = await connection("subjects").where({id: requirement}).select("status");
+      let aux = await connection("subjects")
+        .where({ id: requirement })
+        .select("status");
 
-
-      if(aux.length > 0){
-        aux = aux[0][`status`]
+      if (aux.length > 0) {
+        aux = aux[0][`status`];
       }
-      
 
-      if(aux === "is-success"){
-        status = "is-warning"
-      }
-      else{
+      if (aux === "is-success") {
+        status = "is-warning";
+      } else {
         status = "is-dark";
       }
-      
+
       await connection("subjects").insert({
         name,
         requirement,
@@ -155,18 +175,24 @@ export default {
       this.isRegister = false;
       this.$router.go();
     },
-    async check(id){
-      await connection("subjects").where({id: id}).update({status: "is-success"});
-      await connection("subjects").where({requirement : id}).update({status: "is-warning"});
+    async check(id) {
+      await connection("subjects")
+        .where({ id: id })
+        .update({ status: "is-success" });
+      await connection("subjects")
+        .where({ requirement: id })
+        .update({ status: "is-warning" });
       this.$router.go();
     },
-    async bar(){
+    async bar() {
       let complete;
       let aux;
       let count;
       count = await connection("subjects").count("*");
       count = count[0][`count(*)`];
-      complete = await connection("subjects").count("*").where({status: 'is-success'});
+      complete = await connection("subjects")
+        .count("*")
+        .where({ status: "is-success" });
       complete = complete[0][`count(*)`];
       aux = 100 / count;
       this.progress = Math.round(complete * aux);
@@ -180,15 +206,15 @@ export default {
 .marginTop {
   margin-top: 25px;
 }
-.titleBox{
+.titleBox {
   padding: 5px;
   border-radius: 25px;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
-#ola{
+#ola {
   margin-top: 50px;
 }
-#titloMensagem{
+#titloMensagem {
   font-size: 50px;
   font-weight: bold;
   margin-bottom: 20px;

@@ -19,7 +19,7 @@
           <p class="subtitle">
             Se apresente. Diga seu nome e qual o seu curso.
           </p>
-          <form  @submit.prevent="register">
+          <form @submit.prevent="register">
             <b-field label="Nome" label-position="inside">
               <b-input
                 class="marginTop"
