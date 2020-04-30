@@ -3,6 +3,17 @@ import App from "./App.vue";
 import router from "./router";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCheck,
+  faCheckDouble,
+  faBan
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+library.add(faCheck, faCheckDouble, faBan);
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 Vue.use(Buefy);

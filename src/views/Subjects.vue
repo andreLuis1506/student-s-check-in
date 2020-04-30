@@ -49,8 +49,9 @@
                     @click="check(subject.id)"
                     class=" marginTop is-primary"
                     outlined
-                    >check</b-button
                   >
+                    <font-awesome-icon :icon="['fas', 'check']" />
+                  </b-button>
                 </div>
               </div>
             </div>
@@ -116,73 +117,61 @@
         </div>
       </b-modal>
     </div>
+    <b-loading
+      :is-full-page="true"
+      :active.sync="isLoading"
+      :can-cancel="false"
+    ></b-loading>
   </section>
 </template>
 
 <script>
 import connection from "../database/connection";
+import Subject from "../Models/Subjects";
 export default {
   data() {
     return {
+      isRegister: false,
+      isLoading: false,
       user: {},
       subjects: [],
       progress: 0,
-      isRegister: false,
       name: "",
       requirement: null,
       semester: 1
     };
   },
   async created() {
+    this.isLoading = true;
     this.user = await connection("users")
       .select("*")
       .first();
 
-    this.subjects = await connection("subjects")
-      .select("*")
-      .orderBy("semester");
-
+    this.subjects = await Subject.index();
     console.log(this.subjects);
 
     this.bar();
+    this.isLoading = false;
   },
   methods: {
     async register() {
-      let name = this.name;
-      let status;
-      let requirement = this.requirement;
-      let semester = this.semester;
-      let aux = await connection("subjects")
-        .where({ id: requirement })
-        .select("status");
-
-      if (aux.length > 0) {
-        aux = aux[0][`status`];
-      }
-
-      if (aux === "is-success") {
-        status = "is-warning";
-      } else {
-        status = "is-dark";
-      }
-
-      await connection("subjects").insert({
-        name,
-        requirement,
-        semester,
-        status
-      });
+      this.isLoading = true;
+      await Subject.register(this.name, this.requirement, this.semester);
       this.isRegister = false;
-      this.$router.go();
+      this.subjects = await Subject.index();
+      this.bar();
+      this.name = "";
+      this.requirement = null;
+      this.semester = 1;
+      this.isLoading = false;
     },
     async check(id) {
-      await connection("subjects")
-        .where({ id: id })
-        .update({ status: "is-success" });
-      await connection("subjects")
-        .where({ requirement: id })
-        .update({ status: "is-warning" });
-      this.$router.go();
+      this.isLoading = true;
+      await Subject.check(id);
+      this.subjects = await Subject.index();
+      this.bar();
+      console.log("deu certo");
+      this.isLoading = false;
     },
     async bar() {
       let complete;
