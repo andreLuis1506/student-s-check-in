@@ -5,13 +5,11 @@ import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faCheck,
-  faCheckDouble,
-  faBan
+  faCheck, faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faCheck, faCheckDouble, faBan);
+library.add(faCheck, faPlus);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
