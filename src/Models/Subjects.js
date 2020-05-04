@@ -31,6 +31,20 @@ module.exports = {
     });
   },
 
+  async count(complete){
+    let count;
+    if(complete === true){
+      count  = await connection("subjects").count("*").where({ status: "is-success" });
+      count = count[0][`count(*)`];
+    }
+    else{
+      count =  await connection("subjects").count("*");
+      count = count[0][`count(*)`];
+    }
+
+    return count;
+  },
+
   async check(id) {
     await connection("subjects")
       .where({ id: id })

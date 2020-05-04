@@ -5,7 +5,7 @@
         <div class="card-content">
           <h1 class="title">Primeira vez aqui? Legal!</h1>
           <p class="subtitle">Vamos começar!</p>
-          <b-button class="is-primary" @click="isFistTime = false"
+          <b-button class="is-primary" @click="isFistTime = false" outlined
             >Click aqui para cadastrar</b-button
           >
         </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import connection from "../database/connection";
+import User from "../Models/User";
 export default {
   name: "Home",
   data() {
@@ -61,22 +61,9 @@ export default {
       course: ""
     };
   },
-  async created() {
-    let count = await connection("users").count("*");
-    if (count[0][`count(*)`] > 0) {
-      this.isFistTime = false;
-      this.$router.push("subjects");
-    }
-    console.log(this.isFistTime);
-  },
   methods: {
     async register() {
-      let name = this.name;
-      let course = this.course;
-      await connection("users").insert({
-        name,
-        course
-      });
+      await User.register(this.name,this.course);
       this.$router.push("subjects");
     }
   }

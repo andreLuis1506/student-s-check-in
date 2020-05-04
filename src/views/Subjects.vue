@@ -1,7 +1,15 @@
 <template>
   <section>
     <div class="hero is-primary is-fullheight is-bold">
-      <h1 id="ola" class="title">Olá, {{ user.name }}</h1>
+      <div class="columns">
+        <div class="column doubleMarginTop">
+          <h1 class="title">Olá, {{ user.name }}</h1>
+
+        </div>        
+        <div class="column doubleMarginTop">
+          <p class="title">Studant's <strong style="color:#342F2E">Check-in </strong> <font-awesome-icon :icon="['fas', 'check']" /> </p>
+        </div>
+      </div>
       <div class="hero-body">
         <div class="container is-fluid box">
           <div class="columns">
@@ -15,14 +23,16 @@
                 type="is-success"
                 :value="progress"
                 size="is-medium"
+                format="percent"
+                :precision="1"
+                :keep-trailing-zeroes="false"
                 show-value
               >
-                {{ progress }} %
               </b-progress>
             </div>
             <div class="column is-2 marginTop">
               <b-button @click="isRegister = true" class="is-primary " outlined
-                >+</b-button
+                ><font-awesome-icon :icon="['fas', 'plus']" /></b-button
               >
             </div>
           </div>
@@ -59,7 +69,7 @@
           <!-- lista vazia -->
           <div v-if="subjects.length == 0" class="marginTop">
             <h1 id="titloMensagem">Vamos começar!!</h1>
-            <p>Click em "+" para adicionar sua primeira materia</p>
+            <p>Click em "<font-awesome-icon :icon="['fas', 'plus']" />" para adicionar sua primeira materia</p>
           </div>
         </div>
       </div>
@@ -126,7 +136,7 @@
 </template>
 
 <script>
-import connection from "../database/connection";
+import User from "../Models/User";
 import Subject from "../Models/Subjects";
 export default {
   data() {
@@ -143,12 +153,10 @@ export default {
   },
   async created() {
     this.isLoading = true;
-    this.user = await connection("users")
-      .select("*")
-      .first();
+    this.user = await User.index();
 
     this.subjects = await Subject.index();
-    console.log(this.subjects);
+
 
     this.bar();
     this.isLoading = false;
@@ -170,22 +178,16 @@ export default {
       await Subject.check(id);
       this.subjects = await Subject.index();
       this.bar();
-      console.log("deu certo");
       this.isLoading = false;
     },
     async bar() {
       let complete;
-      let aux;
       let count;
-      count = await connection("subjects").count("*");
-      count = count[0][`count(*)`];
-      complete = await connection("subjects")
-        .count("*")
-        .where({ status: "is-success" });
-      complete = complete[0][`count(*)`];
-      aux = 100 / count;
-      this.progress = Math.round(complete * aux);
-      console.log(this.progress);
+      count = await Subject.count(false);
+      complete = await Subject.count(true);
+      count = 100 / count;
+      this.progress = Math.round(complete * count);
+      // this.progress = Math.round(complete * count);
     }
   }
 };
@@ -200,7 +202,7 @@ export default {
   border-radius: 25px;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
-#ola {
+.doubleMarginTop{
   margin-top: 50px;
 }
 #titloMensagem {
