@@ -4,9 +4,7 @@ import router from "./router";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faCheck, faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faCheck, faPlus);

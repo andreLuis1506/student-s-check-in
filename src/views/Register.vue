@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     async register() {
-      await User.register(this.name,this.course);
+      await User.register(this.name, this.course);
       this.$router.push("subjects");
     }
   }

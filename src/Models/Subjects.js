@@ -31,14 +31,15 @@ module.exports = {
     });
   },
 
-  async count(complete){
+  async count(complete) {
     let count;
-    if(complete === true){
-      count  = await connection("subjects").count("*").where({ status: "is-success" });
+    if (complete === true) {
+      count = await connection("subjects")
+        .count("*")
+        .where({ status: "is-success" });
       count = count[0][`count(*)`];
-    }
-    else{
-      count =  await connection("subjects").count("*");
+    } else {
+      count = await connection("subjects").count("*");
       count = count[0][`count(*)`];
     }
 

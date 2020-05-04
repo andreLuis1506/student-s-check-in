@@ -4,10 +4,12 @@
       <div class="columns">
         <div class="column doubleMarginTop">
           <h1 class="title">Olá, {{ user.name }}</h1>
-
-        </div>        
+        </div>
         <div class="column doubleMarginTop">
-          <p class="title">Studant's <strong style="color:#342F2E">Check-in </strong> <font-awesome-icon :icon="['fas', 'check']" /> </p>
+          <p class="title">
+            Studant's <strong style="color:#342F2E">Check-in </strong>
+            <font-awesome-icon :icon="['fas', 'check']" />
+          </p>
         </div>
       </div>
       <div class="hero-body">
@@ -32,8 +34,8 @@
             </div>
             <div class="column is-2 marginTop">
               <b-button @click="isRegister = true" class="is-primary " outlined
-                ><font-awesome-icon :icon="['fas', 'plus']" /></b-button
-              >
+                ><font-awesome-icon :icon="['fas', 'plus']"
+              /></b-button>
             </div>
           </div>
           <!-- lista -->
@@ -69,7 +71,10 @@
           <!-- lista vazia -->
           <div v-if="subjects.length == 0" class="marginTop">
             <h1 id="titloMensagem">Vamos começar!!</h1>
-            <p>Click em "<font-awesome-icon :icon="['fas', 'plus']" />" para adicionar sua primeira materia</p>
+            <p>
+              Click em "<font-awesome-icon :icon="['fas', 'plus']" />" para
+              adicionar sua primeira materia
+            </p>
           </div>
         </div>
       </div>
@@ -157,7 +162,6 @@ export default {
 
     this.subjects = await Subject.index();
 
-
     this.bar();
     this.isLoading = false;
   },
@@ -202,7 +206,7 @@ export default {
   border-radius: 25px;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
-.doubleMarginTop{
+.doubleMarginTop {
   margin-top: 50px;
 }
 #titloMensagem {
