@@ -4,7 +4,7 @@
       <div class="hero-body">
         <div class="container">
           <p class="title">
-            Studant's <strong style="color:#342F2E">Check-in </strong>
+            Studant's <strong class="has-text-dark">Check-in </strong>
             <font-awesome-icon :icon="['fas', 'check']" />
           </p>
           <p class="subtitle">Bem vindo!</p>
