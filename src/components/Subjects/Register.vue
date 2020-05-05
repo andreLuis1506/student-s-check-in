@@ -33,7 +33,7 @@
                 type="number"
                 min="1"
                 class="marginTop"
-                placeholder="20"
+                placeholder="2"
                 v-model="semester"
                 required
               ></b-input>
